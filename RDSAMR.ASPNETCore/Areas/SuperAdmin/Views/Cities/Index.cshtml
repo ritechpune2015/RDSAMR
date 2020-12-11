@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CityVM>
+<p>
+    <a asp-action="Create">New City</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Sr. No.
+            </th>
+            <th>
+                City ID
+            </th>
+            <th>
+                City Name
+            </th>
+            <th>
+                State Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int srno = 1; }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @srno
+            </td>
+            <td>
+                @item.CityID
+            </td>
+            <td>
+                @item.CityName
+            </td>
+            <td>
+                @item.StateName
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CityID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CityID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CityID })
+            </td>
+        </tr>
+        srno++;
+}
+    </tbody>
+</table>

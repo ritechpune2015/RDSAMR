@@ -1,0 +1,35 @@
+﻿@model CountryVM
+
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="panel panel-primary">
+                <div class="panel-heading bg-primary">
+                    <h5 class="text-center"><b>Contry Details</b></h5>
+                </div>
+                <div class="panel-body">
+                    <div class="card-block">
+                        <dl class="dl-horizontal">
+
+                            <dt>
+                                Country Name
+                            </dt>
+
+                            <dd>
+                                @Model.CountryName
+                            </dd>
+
+                        </dl>
+                    </div>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.CountryID" class="btn btn-success">Edit</a>
+                        <a asp-action="Index"class="btn btn-danger">Back to List </a>
+
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>

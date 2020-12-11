@@ -1,0 +1,50 @@
+﻿@model IEnumerable<StateVM>
+
+
+<p>
+    <a asp-action="Create">New State</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Sr. No.
+            </th>
+            <th>
+                State ID
+            </th>
+            <th>
+                State Name
+            </th>
+            <th>
+                Country Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int srno = 1; }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @srno
+            </td>
+            <td>
+                @item.StateID
+            </td>
+            <td>
+                @item.StateName
+            </td>
+            <td>
+                @item.CountryName
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.StateID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.StateID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.StateID })
+            </td>
+        </tr>
+        srno++;
+}
+    </tbody>
+</table>
