@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RDSAMR.Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,26 +48,18 @@ namespace RDSAMR.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTbl",
+                name: "SuperAdminTbl",
                 columns: table => new
                 {
-                    UserID = table.Column<long>(nullable: false)
+                    SuperAdminID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedByID = table.Column<long>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: true),
-                    UpdatedByID = table.Column<long>(nullable: true),
-                    UpdationDate = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletionDate = table.Column<DateTime>(nullable: true),
-                    DeletedByID = table.Column<long>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
                     EmailID = table.Column<string>(nullable: true),
-                    MobileNo = table.Column<string>(nullable: true)
+                    PasswordHash = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTbl", x => x.UserID);
+                    table.PrimaryKey("PK_SuperAdminTbl", x => x.SuperAdminID);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,10 +90,10 @@ namespace RDSAMR.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRoleTbl",
+                name: "UserTbl",
                 columns: table => new
                 {
-                    UserRoleID = table.Column<long>(nullable: false)
+                    UserID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedByID = table.Column<long>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: true),
@@ -110,23 +102,22 @@ namespace RDSAMR.Infrastructure.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletionDate = table.Column<DateTime>(nullable: true),
                     DeletedByID = table.Column<long>(nullable: true),
-                    UserID = table.Column<long>(nullable: false),
-                    RoleID = table.Column<long>(nullable: false)
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    EmailID = table.Column<string>(nullable: true),
+                    RoleID = table.Column<long>(nullable: false),
+                    MobileNo = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoleTbl", x => x.UserRoleID);
+                    table.PrimaryKey("PK_UserTbl", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_UserRoleTbl_RoleTbl_RoleID",
+                        name: "FK_UserTbl_RoleTbl_RoleID",
                         column: x => x.RoleID,
                         principalTable: "RoleTbl",
                         principalColumn: "RoleID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoleTbl_UserTbl_UserID",
-                        column: x => x.UserID,
-                        principalTable: "UserTbl",
-                        principalColumn: "UserID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -157,6 +148,26 @@ namespace RDSAMR.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "RoleTbl",
+                columns: new[] { "RoleID", "CreatedByID", "CreationDate", "DeletedByID", "DeletionDate", "IsDeleted", "RoleName", "UpdatedByID", "UpdationDate" },
+                values: new object[] { 1L, null, null, null, null, false, "Admin", null, null });
+
+            migrationBuilder.InsertData(
+                table: "RoleTbl",
+                columns: new[] { "RoleID", "CreatedByID", "CreationDate", "DeletedByID", "DeletionDate", "IsDeleted", "RoleName", "UpdatedByID", "UpdationDate" },
+                values: new object[] { 2L, null, null, null, null, false, "Staff", null, null });
+
+            migrationBuilder.InsertData(
+                table: "SuperAdminTbl",
+                columns: new[] { "SuperAdminID", "EmailID", "Name", "PasswordHash" },
+                values: new object[] { 1L, "superadmin@gmail.com", "Achyut", "admin" });
+
+            migrationBuilder.InsertData(
+                table: "UserTbl",
+                columns: new[] { "UserID", "Address", "CreatedByID", "CreationDate", "DeletedByID", "DeletionDate", "EmailID", "FirstName", "IsDeleted", "LastName", "MobileNo", "PasswordHash", "RoleID", "UpdatedByID", "UpdationDate" },
+                values: new object[] { 1L, "Akurdi", null, null, null, null, "superadmin@gmail.com", "Achyut", false, "Kendre", "89894545898", "admin", 1L, null, null });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CityTbl_StateID",
                 table: "CityTbl",
@@ -168,14 +179,10 @@ namespace RDSAMR.Infrastructure.Migrations
                 column: "CountryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoleTbl_RoleID",
-                table: "UserRoleTbl",
-                column: "RoleID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoleTbl_UserID",
-                table: "UserRoleTbl",
-                column: "UserID");
+                name: "IX_UserTbl_RoleID",
+                table: "UserTbl",
+                column: "RoleID",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -184,16 +191,16 @@ namespace RDSAMR.Infrastructure.Migrations
                 name: "CityTbl");
 
             migrationBuilder.DropTable(
-                name: "UserRoleTbl");
+                name: "SuperAdminTbl");
+
+            migrationBuilder.DropTable(
+                name: "UserTbl");
 
             migrationBuilder.DropTable(
                 name: "StateTbl");
 
             migrationBuilder.DropTable(
                 name: "RoleTbl");
-
-            migrationBuilder.DropTable(
-                name: "UserTbl");
 
             migrationBuilder.DropTable(
                 name: "CountryTbl");

@@ -12,8 +12,7 @@ namespace RDSAMR.Domain.Entities
 
         [Key]
         public Int64 CountryID { get; set; }
-      
         public string CountryName { get; set; }
-        public IEnumerable<State> States { get; set; }
+        public virtual IEnumerable<State> States { get; set; }
     }
 }

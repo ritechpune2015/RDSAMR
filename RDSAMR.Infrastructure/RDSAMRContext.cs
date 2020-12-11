@@ -16,49 +16,42 @@ namespace RDSAMR.Infrastructure
         {
             modelBuilder.Entity<Role>()
            .HasData(
+              
                new Role
                {
                    RoleID=1,
-                   RoleName = "SuperAdmin"
-               },
-               new Role
-               {
-                   RoleID=2,
                    RoleName = "Admin",
                },
                new Role
                {
-                   RoleID=3,
+                   RoleID=2,
                    RoleName = "Staff",
-               },
-               new Role
-               {
-                   RoleID=4,
-                   RoleName = "Consumer",
                }
            );
 
-           modelBuilder.Entity<User>()
+           modelBuilder.Entity<SuperAdmin>()
            .HasData(
-               new User
+               new SuperAdmin
                {
-                   UserID=1,
-                   Address="Akurdi",
+                   SuperAdminID=1,
                    EmailID= "superadmin@gmail.com",
-                   FirstName="Achyut",
-                   LastName="Kendre",
-                   MobileNo="89894545898",
+                   Name="Achyut",
                    PasswordHash="admin"
                }
            );
 
-            modelBuilder.Entity<UserRole>()
+            modelBuilder.Entity<User>()
            .HasData(
-               new UserRole
+               new User
                {
-                 RoleID=1,
-                 UserID=1,
-                 UserRoleID=1
+                   UserID = 1,
+                   Address = "Akurdi",
+                   EmailID = "superadmin@gmail.com",
+                   FirstName = "Achyut",
+                   LastName = "Kendre",
+                   MobileNo = "89894545898",
+                   PasswordHash = "admin",
+                   RoleID = 1
                }
            );
         }
@@ -120,7 +113,7 @@ namespace RDSAMR.Infrastructure
         public DbSet<City> Cities { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<SuperAdmin> SuperAdmins { get; set; }
         
 
     }

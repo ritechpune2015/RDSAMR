@@ -17,6 +17,7 @@ namespace RDSAMR.Application
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ISuperAdminService, SuperAdminService>();
             services.AddAutoMapper(typeof(AMRProfile));
             return services;
         }

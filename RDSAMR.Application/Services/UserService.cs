@@ -42,19 +42,7 @@ namespace RDSAMR.Application.Services
             throw new NotImplementedException();
         }
 
-        public ICollection<RoleVM> GetUserRoles(long id)
-        {
-            var r = from t in this.cntx.Users
-                    join t1 in this. cntx.UserRoles
-                    on t.UserID equals t1.UserID
-                    where t.UserID==id && t.IsDeleted== false
-                    select new RoleVM
-                    {
-                        RoleID =t1.RoleID,
-                        RoleName =t1.Role.RoleName
-                    };
-            return r.ToList();
-        }
+        
 
         public LoginResultVM Login(UserLoginVM rec)
         {
@@ -65,6 +53,7 @@ namespace RDSAMR.Application.Services
                 logresult = new LoginResultVM();
                 logresult.UserID = urec.UserID;
                 logresult.UserName = urec.FirstName+" " + urec.LastName;
+                logresult.RoleName = urec.Role.RoleName;
              }
             return logresult;
         }

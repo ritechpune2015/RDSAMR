@@ -12,7 +12,7 @@ namespace RDSAMR.Domain.Entities
         [Key]
        
         public Int64 RoleID { get; set; }
-      
         public string RoleName { get; set; }
+        public virtual User User { get; set; }
     }
 }

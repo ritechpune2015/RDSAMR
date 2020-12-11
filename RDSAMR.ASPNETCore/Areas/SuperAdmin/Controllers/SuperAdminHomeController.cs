@@ -8,7 +8,7 @@ using RDSAMR.ASPNETCore.AuthFilter;
 namespace RDSAMR.ASPNETCore.Areas.SuperAdmin.Controllers
 {
 
-    [UserAuth]
+    [SuperAdminAuth]
     [Area("SuperAdmin")]
     public class SuperAdminHomeController : Controller
     {

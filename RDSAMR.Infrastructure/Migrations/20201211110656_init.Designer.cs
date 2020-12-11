@@ -10,8 +10,8 @@ using RDSAMR.Infrastructure;
 namespace RDSAMR.Infrastructure.Migrations
 {
     [DbContext(typeof(RDSAMRContext))]
-    [Migration("20201210151141_udet")]
-    partial class udet
+    [Migration("20201211110656_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -132,6 +132,20 @@ namespace RDSAMR.Infrastructure.Migrations
                     b.HasKey("RoleID");
 
                     b.ToTable("RoleTbl");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleID = 1L,
+                            IsDeleted = false,
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            RoleID = 2L,
+                            IsDeleted = false,
+                            RoleName = "Staff"
+                        });
                 });
 
             modelBuilder.Entity("RDSAMR.Domain.Entities.State", b =>
@@ -175,6 +189,36 @@ namespace RDSAMR.Infrastructure.Migrations
                     b.ToTable("StateTbl");
                 });
 
+            modelBuilder.Entity("RDSAMR.Domain.Entities.SuperAdmin", b =>
+                {
+                    b.Property<long>("SuperAdminID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EmailID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SuperAdminID");
+
+                    b.ToTable("SuperAdminTbl");
+
+                    b.HasData(
+                        new
+                        {
+                            SuperAdminID = 1L,
+                            EmailID = "superadmin@gmail.com",
+                            Name = "Achyut",
+                            PasswordHash = "admin"
+                        });
+                });
+
             modelBuilder.Entity("RDSAMR.Domain.Entities.User", b =>
                 {
                     b.Property<long>("UserID")
@@ -215,39 +259,6 @@ namespace RDSAMR.Infrastructure.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("UpdatedByID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdationDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("UserID");
-
-                    b.ToTable("UserTbl");
-                });
-
-            modelBuilder.Entity("RDSAMR.Domain.Entities.UserRole", b =>
-                {
-                    b.Property<long>("UserRoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("CreatedByID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("DeletedByID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<long>("RoleID")
                         .HasColumnType("bigint");
 
@@ -257,16 +268,26 @@ namespace RDSAMR.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("UserID")
-                        .HasColumnType("bigint");
+                    b.HasKey("UserID");
 
-                    b.HasKey("UserRoleID");
+                    b.HasIndex("RoleID")
+                        .IsUnique();
 
-                    b.HasIndex("RoleID");
+                    b.ToTable("UserTbl");
 
-                    b.HasIndex("UserID");
-
-                    b.ToTable("UserRoleTbl");
+                    b.HasData(
+                        new
+                        {
+                            UserID = 1L,
+                            Address = "Akurdi",
+                            EmailID = "superadmin@gmail.com",
+                            FirstName = "Achyut",
+                            IsDeleted = false,
+                            LastName = "Kendre",
+                            MobileNo = "89894545898",
+                            PasswordHash = "admin",
+                            RoleID = 1L
+                        });
                 });
 
             modelBuilder.Entity("RDSAMR.Domain.Entities.City", b =>
@@ -287,17 +308,11 @@ namespace RDSAMR.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RDSAMR.Domain.Entities.UserRole", b =>
+            modelBuilder.Entity("RDSAMR.Domain.Entities.User", b =>
                 {
                     b.HasOne("RDSAMR.Domain.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RDSAMR.Domain.Entities.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserID")
+                        .WithOne("User")
+                        .HasForeignKey("RDSAMR.Domain.Entities.User", "RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

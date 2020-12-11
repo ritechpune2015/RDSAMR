@@ -11,9 +11,9 @@ namespace RDSAMR.Infrastructure
     {
         public static IServiceCollection AddInfraServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContextPool<RDSAMRContext>(options =>
-            //options.UseSqlServer(@"server=RITECH-PC\SQLEXPRESS;Database=AMCDB;Integrated Security= true;"));
-             options.UseSqlServer(configuration.GetConnectionString("scon")));
+            services.AddDbContextPool<RDSAMRContext>(options => 
+                options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("scon")) 
+            );
             return services;
         }
     }

@@ -1,32 +1,43 @@
 ﻿@model CityVM
+<div class="row">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+    <div class="card">
+        <div class="panel panel-primary">
+            <div class="panel-heading bg-primary">
+                <h5 class="text-center"><b>CityDetails</b></h5>
+            </div>
+            <div class="panel-body">
+                <div class="card-block">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            City ID
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Model.CityID
+                        </dd>
+                        <dt class="col-sm-2">
+                            Country Name
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Model.CityName
+                        </dd>
+                        <dt class="col-sm-2">
+                            State Name
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Model.StateName
+                        </dd>
 
-<h1> City Details</h1>
+                    </dl>
+                </div>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.CityID" class="btn btn-success">Edit</a>
+                    <a asp-action="Index" class="btn btn-danger">Back to List </a>
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            City ID
-        </dt>
-        <dd class="col-sm-10">
-            @Model.CityID
-        </dd>
-        <dt class="col-sm-2">
-            Country Name
-        </dt>
-        <dd class="col-sm-10">
-            @Model.CityName
-        </dd>
-        <dt class="col-sm-2">
-            State Name
-        </dt>
-        <dd class="col-sm-10">
-            @Model.StateName
-        </dd>
-       
-    </dl>
+                </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.CityID">Edit</a>
-    <a asp-action="Index">Back to List</a>
+</div>
+</div>
+</div>
 </div>

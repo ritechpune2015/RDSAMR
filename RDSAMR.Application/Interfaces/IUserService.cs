@@ -15,7 +15,7 @@ namespace RDSAMR.Application.Interfaces
         void Delete(Int64 id, Int64 byid);
         ICollection<CountryVM> GetByPredicate(Expression<Func<CountryVM, bool>> predicate);
         LoginResultVM Login(UserLoginVM rec);
-        ICollection<RoleVM> GetUserRoles(Int64 id);
+        
 
     }
 }

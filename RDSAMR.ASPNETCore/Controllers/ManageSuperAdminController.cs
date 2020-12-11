@@ -11,14 +11,13 @@ using RDSAMR.Application.ViewModels;
 
 namespace RDSAMR.ASPNETCore.Controllers
 {
-    public class ManageUsersController : Controller
+    public class ManageSuperAdminController : Controller
     {
-        IUserService usersvr;
-        IRoleService rolessvr;
-        public ManageUsersController(IUserService utemp,IRoleService rtemp)
+        ISuperAdminService usersvr;
+        
+        public ManageSuperAdminController(ISuperAdminService utemp)
         {
             this.usersvr = utemp;
-            rolessvr = rtemp;
         }
 
         [HttpGet]
@@ -35,20 +34,13 @@ namespace RDSAMR.ASPNETCore.Controllers
                 var r = this.usersvr.Login(rec);
                 if (r != null)
                 {
-                    HttpContext.Session.SetString("UserID",r.UserID.ToString());
-                    HttpContext.Session.SetString("UserName", r.UserName);
-                    if (r.RoleName == "Admin")
-                        return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
-                    if (r.RoleName == "Staff")
-                        return RedirectToAction("Index", "StaffHome", new { area = "Staff" });
+                    HttpContext.Session.SetString("SuperAdminID",r.UserID.ToString());
+                    HttpContext.Session.SetString("SuperAdminName", r.UserName);
+                    return RedirectToAction("Index", "SuperAdminHome", new { area = "SuperAdmin" });
                 }
-
                 ModelState.AddModelError("", "Invalid Email ID or Password!");
-
             }
             return View(rec);
         }
-
-       
     }
 }

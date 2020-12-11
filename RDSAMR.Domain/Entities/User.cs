@@ -18,9 +18,10 @@ namespace RDSAMR.Domain.Entities
         public string Address { get; set; }
    
         public string EmailID { get; set; }
-     
+        [ForeignKey("Role")]
+        public Int64 RoleID { get; set; }
         public string MobileNo { get; set; }
         public string PasswordHash { get; set; }
-        public virtual List<UserRole> UserRoles { get; set; }
+        public virtual Role Role { get; set; }
     }
 }
