@@ -36,15 +36,24 @@ namespace RDSAMR.ASPNETCore.Areas.SuperAdmin.Controllers
             //check for country name already exists 
             if (ModelState.IsValid)
             {
-                if (!this.countrysvr.GetAll().Any(p => p.CountryName.ToLower() == rec.CountryName.ToLower()))
+                try
                 {
-                    this.countrysvr.Add(rec, 1);
-                    return RedirectToAction("Index");
+                    if (!this.countrysvr.GetAll().Any(p => p.CountryName.ToLower() == rec.CountryName.ToLower()))
+                    {
+                        this.countrysvr.Add(rec, 1);
+                        TempData["Create"] = "Country Created Successfully!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Country Name Already Exists!");
+                        //return View(rec);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Country Name Already Exists!");
-                    //return View(rec);
+                    TempData["Create"] = "Exception!" + ex.ToString();
+                    return View();
                 }
             }
             return View(rec);
@@ -71,15 +80,24 @@ namespace RDSAMR.ASPNETCore.Areas.SuperAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!this.countrysvr.GetAll().Any(p => p.CountryName.ToLower() == rec.CountryName.ToLower() && p.CountryID!=rec.CountryID))
+                try
                 {
-                    this.countrysvr.Update(rec, 1);
-                    return RedirectToAction("Index");
+                    if (!this.countrysvr.GetAll().Any(p => p.CountryName.ToLower() == rec.CountryName.ToLower() && p.CountryID != rec.CountryID))
+                    {
+                        this.countrysvr.Update(rec, 1);
+                        TempData["Edit"] = "Country Edited Successfully!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Country Name Already Exists!");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Country Name Already Exists!");
-                 }
+                    TempData["Edit"] = "Exception!" + ex.ToString();
+                    return View();
+                }
             }
                 return View(rec);
         }
@@ -87,9 +105,18 @@ namespace RDSAMR.ASPNETCore.Areas.SuperAdmin.Controllers
         [HttpGet]
         public IActionResult Delete(Int64 id)
         {
-         //   rec.IsDeleted = true;
-            this.countrysvr.Delete(id,1);
-            return RedirectToAction("Index");
+            //   rec.IsDeleted = true;
+            try
+            {
+                this.countrysvr.Delete(id, 1);
+                TempData["Delete"] = "Country Deleted Successfully!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["Delete"] = "Exception!" + ex.ToString();
+                return View();
+            }
         }
     }
 }
